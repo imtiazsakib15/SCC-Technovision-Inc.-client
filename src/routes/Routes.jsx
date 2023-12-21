@@ -7,6 +7,7 @@ import Login from "../pages/Login/Login";
 import Templates from "../pages/Templates/Templates";
 import Register from "../pages/Register/Register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import Dashboard from "../layout/Dashboard";
 
 const Router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const Router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  }
 ]);
 
 export default Router;

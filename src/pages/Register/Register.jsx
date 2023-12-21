@@ -4,6 +4,7 @@ import { MdErrorOutline } from "react-icons/md";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../shared/SocialLogin";
 
 const Register = () => {
   const { createUser, updateUserProfile } = useAuth();
@@ -12,38 +13,38 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-    const axiosPublic = useAxiosPublic();
+  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-        createUser(data?.email, data?.password).then((userCredential) => {
-          updateUserProfile(data?.name, data?.photoURL)
-            .then(() => {
-              const userInfo = {
-                email: userCredential.user.email,
-                name: userCredential.user.displayName,
-                profession: data?.profession,
-                photoURL: data?.photoURL,
-              };
-                axiosPublic.post("/users", userInfo).then((res) => {
-                  if (res.data?.insertedId) {
-                    Swal.fire({
-                      title: "Good job!",
-                      text: `Register Successfully!`,
-                      icon: "success",
-                      showConfirmButton: false,
-                      timer: 1000,
-                    });
-                    navigate("/");
-                  }
-                });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-          userCredential.user.displayName = data?.name;
-          userCredential.user.photoURL = data?.photoURL;
+    createUser(data?.email, data?.password).then((userCredential) => {
+      updateUserProfile(data?.name, data?.photoURL)
+        .then(() => {
+          const userInfo = {
+            email: userCredential.user.email,
+            name: userCredential.user.displayName,
+            profession: data?.profession,
+            photoURL: data?.photoURL,
+          };
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data?.insertedId) {
+              Swal.fire({
+                title: "Good job!",
+                text: `Register Successfully!`,
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+              navigate("/");
+            }
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
+      userCredential.user.displayName = data?.name;
+      userCredential.user.photoURL = data?.photoURL;
+    });
   };
 
   return (
@@ -256,6 +257,11 @@ const Register = () => {
                   </Link>
                 </p>
               </div>
+              
+              <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-[1_1_0%] before:border-t before:border-gray-200 before:me-6 after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ms-6 dark:text-gray-500 dark:before:border-gray-600 dark:after:border-gray-600">
+                Or
+              </div>
+              <SocialLogin />
             </div>
           </div>
         </div>
