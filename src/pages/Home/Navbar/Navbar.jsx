@@ -1,12 +1,21 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "/logo.png";
 import useAuth from "../../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const handleLogout = () => {
     logOut()
-    .then(() => {})
+    .then(() => {
+      Swal.fire({
+        title: "Good job!",
+        text: `Log Out Successfully!`,
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    })
     .catch(error => {
       console.log(error);
     })
