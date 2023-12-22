@@ -8,6 +8,7 @@ import Templates from "../pages/Templates/Templates";
 import Register from "../pages/Register/Register";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import Dashboard from "../layout/Dashboard";
+import PrivateRoute from "./PrivateRoute";
 
 const Router = createBrowserRouter([
   {
@@ -43,8 +44,12 @@ const Router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
-  }
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+  },
 ]);
 
 export default Router;
