@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import SocialLogin from "../shared/SocialLogin";
+import SocialLogin from "../shared/SocialLogin/SocialLogin";
 
 const Login = () => {
   const { signIn } = useAuth();

@@ -4,7 +4,7 @@ import { MdErrorOutline } from "react-icons/md";
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
-import SocialLogin from "../shared/SocialLogin";
+import SocialLogin from "../shared/SocialLogin/SocialLogin";
 
 const Register = () => {
   const { createUser, updateUserProfile } = useAuth();
