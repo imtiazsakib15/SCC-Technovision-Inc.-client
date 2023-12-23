@@ -5,12 +5,12 @@ import { BsFacebook, BsGoogle, BsTwitter } from "react-icons/bs";
 const Footer = () => {
   return (
     <footer className="bg-gray-800 border-t">
-      <div className="max-w-7xl py-10 px-4 sm:px-6 lg:px-8 lg:pt-20 mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 lg:pt-20">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           <div className="col-span-2">
             <Link
               to={"/"}
-              className="text-white hidden sm:flex items-center justify-center sm:text-xl lg:text-2xl font-bold"
+              className="text-white flex items-center justify-center sm:text-xl lg:text-2xl font-bold"
             >
               <img
                 className="w-7 h-7 lg:w-10 lg:h-10 -mr-1.5"
