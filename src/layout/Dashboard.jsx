@@ -82,9 +82,9 @@ const Dashboard = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 p-5 gap-4">
-          <TodoTasks todos={todos} />
-          <OngoingTasks ongoing={ongoing} />
-          <CompletedTasks completed={completed} />
+          <TodoTasks todos={todos} taskRefetch={taskRefetch} />
+          <OngoingTasks ongoing={ongoing} taskRefetch={taskRefetch} />
+          <CompletedTasks completed={completed} taskRefetch={taskRefetch} />
         </div>
       </div>
       {showmodal && (
