@@ -1,25 +1,28 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "/logo.png";
 import useAuth from "../../../hooks/useAuth";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     logOut()
-    .then(() => {
-      Swal.fire({
-        title: "Good job!",
-        text: `Log Out Successfully!`,
-        icon: "success",
-        showConfirmButton: false,
-        timer: 1000,
+      .then(() => {
+        navigate("/");
+        Swal.fire({
+          title: "Good job!",
+          text: `Log Out Successfully!`,
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
+  };
   const navLinks = (
     <>
       <li>
@@ -48,7 +51,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to={"templates"}
+          to={"/templates"}
           className={({ isActive }) =>
             isActive
               ? "text-blue-600 underline font-semibold px-1 py-1"
@@ -58,6 +61,20 @@ const Navbar = () => {
           Templates
         </NavLink>
       </li>
+      {user && (
+        <li>
+          <NavLink
+            to={"/dashboard"}
+            className={({ isActive }) =>
+              isActive
+                ? "text-blue-600 underline font-semibold px-1 py-1"
+                : "font-semibold px-1 py-1"
+            }
+          >
+            Dashboard
+          </NavLink>
+        </li>
+      )}
     </>
   );
 
@@ -106,7 +123,12 @@ const Navbar = () => {
         </div>
         <div className="navbar-end">
           {user ? (
-            <button onClick={handleLogout} className="btn bg-blue-500 text-white hover:bg-blue-700">Logout</button>
+            <button
+              onClick={handleLogout}
+              className="btn bg-blue-500 text-white hover:bg-blue-700"
+            >
+              Logout
+            </button>
           ) : (
             <Link
               to={"/login"}
