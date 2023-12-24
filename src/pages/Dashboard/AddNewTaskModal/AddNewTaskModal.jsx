@@ -5,7 +5,7 @@ import { MdErrorOutline } from "react-icons/md";
 import PropTypes from "prop-types";
 import useAuth from "../../../hooks/useAuth";
 
-const AddNewTaskModal = ({ setshowmodal }) => {
+const AddNewTaskModal = ({ setshowmodal, taskRefetch }) => {
   const axiosPublic = useAxiosPublic();
   const { user } = useAuth();
   const {
@@ -17,10 +17,12 @@ const AddNewTaskModal = ({ setshowmodal }) => {
   const onSubmit = (data) => {
     const task = {
       ...data,
+      condition: "todo",
       email: user?.email,
     };
     axiosPublic.post("/tasks", task).then((res) => {
-      if (res?.data?._id) {
+      if (res?.data?.insertedId) {
+        taskRefetch();
         Swal.fire({
           title: "Task Added Successfully!",
           icon: "success",
@@ -180,6 +182,7 @@ const AddNewTaskModal = ({ setshowmodal }) => {
 
 AddNewTaskModal.propTypes = {
   setshowmodal: PropTypes.func,
+  taskRefetch: PropTypes.func,
 };
 
 export default AddNewTaskModal;

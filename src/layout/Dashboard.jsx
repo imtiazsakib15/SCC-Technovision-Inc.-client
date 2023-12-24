@@ -3,11 +3,18 @@ import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import AddNewTaskModal from "../pages/Dashboard/AddNewTaskModal/AddNewTaskModal";
 import { useState } from "react";
+import TodoTasks from "../pages/Dashboard/TodoTasks/TodoTasks";
+import OngoingTasks from "../pages/Dashboard/OngoingTasks/OngoingTasks";
+import CompletedTasks from "../pages/Dashboard/CompletedTasks/CompletedTasks";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const Dashboard = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
   const [showmodal, setshowmodal] = useState(false);
+  const axiosPublic = useAxiosPublic();
+
   // User logout function
   const handleLogout = () => {
     logOut()
@@ -25,6 +32,17 @@ const Dashboard = () => {
         console.log(error);
       });
   };
+
+  // Get user specific todos
+  const { data, refetch: taskRefetch } = useQuery({
+    queryKey: ["tasks", user?.email],
+    queryFn: async () => await axiosPublic.get(`/tasks/${user?.email}`),
+  });
+
+  const tasks = data?.data || [];
+  const todos = tasks?.filter((task) => task?.condition === "todo");
+  const ongoing = tasks?.filter((task) => task?.condition === "ongoing");
+  const completed = tasks?.filter((task) => task?.condition === "completed");
 
   return (
     <div className="flex flex-col sm:flex-row">
@@ -64,30 +82,16 @@ const Dashboard = () => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 p-5 gap-4">
-          <div className="min-h-96 border rounded-md">
-            <h4 className="bg-blue-700 text-white font-semibold rounded-md text-center p-3">
-              To-Do
-            </h4>
-            <div>All todos here...</div>
-          </div>
-          <div className="min-h-96 border rounded-md">
-            <h4 className="bg-blue-700 text-white font-semibold rounded-md text-center p-3">
-              Ongoing
-            </h4>
-            <div>Ongoing tasks here...</div>
-          </div>
-          <div className="min-h-96 border rounded-md">
-            <h4 className="bg-blue-700 text-white font-semibold rounded-md text-center p-3">
-              Completed
-            </h4>
-            <div>Completed tasks here...</div>
-          </div>
+          <TodoTasks todos={todos} />
+          <OngoingTasks ongoing={ongoing} />
+          <CompletedTasks completed={completed} />
         </div>
       </div>
       {showmodal && (
-        <div className="">
-          <AddNewTaskModal setshowmodal={setshowmodal} />
-        </div>
+        <AddNewTaskModal
+          setshowmodal={setshowmodal}
+          taskRefetch={taskRefetch}
+        />
       )}
     </div>
   );
